@@ -37,7 +37,7 @@ def _check_valid_action_operator(env, state, chunk):
     if not bool(chunk):
         return diff2acts
 
-    if env.emulator_halted():
+    if env._emulator_halted():
         env.reset()
 
     env.set_state(state)
@@ -50,11 +50,11 @@ def _check_valid_action_operator(env, state, chunk):
         else:
             obs, rew, done, info = env.step(act)
 
-        if env.emulator_halted():
+        if env._emulator_halted():
             env.reset()
             continue
 
-        if info['score'] != orig_score or done or env.world_changed():
+        if info['score'] != orig_score or done or env._world_changed():
             if '(Taken)' in obs:
                 continue
             diff = env._get_world_diff()
