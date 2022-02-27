@@ -6,6 +6,7 @@ from datetime import timedelta
 from timeit import default_timer as timer
 import agents
 import utils
+import wandb
 
 
 def train():
@@ -238,6 +239,14 @@ def train():
                         td_avg, td_max, norm_avg,
                         config.epsilon_by_frame(frame_idx),
                         exp_avg, exp_max, exp_min))
+        wandb.log({'step': frame_idx,
+                   'episode': episode_logger['num'],
+                   'R': monitor.episode_reward_history[-1],
+                   'score': monitor.score_history[-1],
+                   'buffer': model.replay_buffer.buffer,
+                   'template': action_record['template'][1],
+                   'object': action_record['obj'][1],
+                   'td': monitor.get_td_record()[0]})
         model.print_time_log()
         model.reset_time_log()
         print('- act time:{}'.format(timedelta(milliseconds=act_time)))
@@ -248,4 +257,5 @@ def train():
 
 
 if __name__ == "__main__":
+    wandb.init(project='rcdqn_state')
     train()
