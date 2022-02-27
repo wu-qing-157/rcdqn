@@ -94,7 +94,9 @@ class JerichoEnv:
 
         self.step_limit = step_limit
 
-        self.bindings = load_bindings(rom_path)
+        self.env = FrotzEnv(self.rom_path, self.seed)
+
+        self.bindings = self.env.bindings
         self.seed = self.bindings['seed']
         # some additional templates here, could make it game specific
         # Note: changes to it may cause the template id inconsistent
@@ -106,7 +108,6 @@ class JerichoEnv:
         self.id2template = None
         self.template2id = None
         self._compute_template()
-        self.env = FrotzEnv(self.rom_path, self.seed)
 
         self.env_num = env_num
         self.ps = None
