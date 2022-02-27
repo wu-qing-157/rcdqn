@@ -264,11 +264,11 @@ class JerichoEnv:
             else:
                 obs, rew, done, info = self.env.step(act)
 
-            if self.env.emulator_halted():
+            if self.env._emulator_halted():
                 self.env.reset()
                 continue
 
-            if info['score'] != orig_score or done or self.env.world_changed():
+            if info['score'] != orig_score or done or self.env._world_changed():
                 # Heuristic to ignore actions with side-effect of taking items
                 if '(Taken)' in obs:
                     continue
@@ -316,7 +316,7 @@ class JerichoEnv:
 
     def step(self, action, confidence=0, parallel=True, compute_actions=True):
         ob, reward, done, info = self.env.step(action)
-        world_changed = self.env.world_changed()
+        world_changed = self.env._world_changed()
         info['world_changed'] = world_changed
         # Initialize with default values
         look = 'unknown'
@@ -331,7 +331,7 @@ class JerichoEnv:
                     save = self.env.get_state()
                     for _ in range(confidence):
                         _, _, _, _ = self.env.step(action)
-                        world_changed = self.env.world_changed()
+                        world_changed = self.env._world_changed()
                         if world_changed:
                             break
                     self.env.set_state(save)
@@ -435,7 +435,7 @@ class JerichoEnv:
             #     self.env.reset()
             #     continue
             diff = None
-            if info['score'] != orig_score or done or self.env.world_changed():
+            if info['score'] != orig_score or done or self.env._world_changed():
                 # if '(Taken)' in obs:
                 #     continue
                 diff = self.env._get_world_diff()
