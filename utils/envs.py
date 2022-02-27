@@ -209,7 +209,7 @@ class JerichoEnv:
         return _get_world_state_hash(self.env)
 
     def _identify_objects_on_current_state(self, ob):
-        objs_raw = self.env.identify_interactive_objects(ob)
+        objs_raw = self.env._identify_interactive_objects(ob)
         objs_raw = list(itertools.chain.from_iterable(objs_raw))
         objs_raw.sort()
         objs = []
