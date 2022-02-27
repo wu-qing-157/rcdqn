@@ -243,7 +243,7 @@ def train():
                    'episode': episode_logger['num'],
                    'R': monitor.episode_reward_history[-1],
                    'score': monitor.score_history[-1],
-                   'buffer': model.replay_buffer.buffer,
+                   'buffer': len(model.replay_buffer.buffer),
                    'template': action_record['template'][1],
                    'object': action_record['obj'][1],
                    'td': monitor.get_td_record()[0]})
