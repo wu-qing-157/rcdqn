@@ -138,7 +138,7 @@ def train():
         # tracking behavior trajectories
         monitor.add_ard(frame_idx, actions[action_id], reward, done, prob)
 
-        if done or env.env.emulator_halted():
+        if done or env.env._emulator_halted():
             score = next_info['score']
             model.reset_hx()
             next_obs_text, next_info = env.reset(parallel=True)
